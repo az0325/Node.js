@@ -1,17 +1,16 @@
 var express = require('express');
 var router = express.Router();
-const {User} = require('../models')
+const { User } = require('../models')
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
-  User.findAll()
-  .then((users)=> {
-    res.render('sequelize', { title : '시퀄라이즈 연습', users});
-  })
-  .catch((err) => {
+router.get('/', async (req, res, next) => {
+  try {
+    const users = await User.findAll();
+    res.render('sequelize', { users });
+  } catch (error) {
     console.log(err);
     next(err);
-  })
+  }
 });
 
 module.exports = router;

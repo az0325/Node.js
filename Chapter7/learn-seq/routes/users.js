@@ -3,35 +3,30 @@ var router = express.Router();
 var { User } = require('../models');
 
 /* GET users listing. */
-router.get('/', (req, res, next) => {
-  // res.send('respond with a resource');
-  User.findAll()
-    .then((users) => {
-      res.json(users);
-    })
-    .catch((err) => {
-      console.err(err);
-      next(err);
-    })
+router.get('/', async (req, res, next) => {
+  try {
+    const users = await User.findAll();
+    res.json(users);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 //사용자 등록
 //POST /users
-router.post('/', (res, req, next) => {
-  console.log(req.body);
-  User.create({
-    name: req.body.name,
-    age: req.body.age,
-    married: req.body.married,
-  })
-    .then((result) => {
-      console.log(result);
-      res.status(201).json(result);
-    })
-    .catch((err) => {
-      conosle.log(err);
-      next(err);
+router.post('/', async (req, res, next) => {
+  try {
+    const result = await User.create({
+      name: req.body.name,
+      age: req.body.age,
+      married: req.body.married,
     });
+    res.status(201).json(result);
+  } catch (error) {
+    console.error(error);
+    next(error);
+  }
 });
 
 module.exports = router;
