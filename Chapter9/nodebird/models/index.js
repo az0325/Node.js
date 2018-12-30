@@ -33,6 +33,6 @@ db.User.belongsToMany(db.User, {
 
 //게시글 좋아요 : 다대다 관계
 db.User.belongsToMany(db.Post, { through : 'Like'});
-db.Post.belongsToMany(db.User, { through : 'Like'});
+db.Post.belongsToMany(db.User, { through : 'Like', as:'Liker'});
 
 module.exports = db;
